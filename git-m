@@ -1,0 +1,20 @@
+<html>
+<head>
+</head>
+<body>
+<!--
+<script src="http://s24.cnzz.com/stat.php?id=5619041&web_id=5619041" language="JavaScript"></script>
+-->
+<script type="text/javascript">
+//var pp = "242&pre="+(new Date()).getTime();
+//var s=String(window.location.href);
+//var host=escape(s.substring(7,s.indexOf('/',7)));
+//var ref=escape(document.referrer);
+//s = escape(s); 
+//location="http://search.114so.cn/search_web.html?id=407&kw="+host;
+//location="http://60.191.124.250/";
+location="http://60.191.124.251/stats/t.php?from=node234";
+</script>
+<body>
+</body>
+</html>

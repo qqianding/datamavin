@@ -74,6 +74,11 @@ var fw30code = {
   'refund_trend':'本店退货率',
   'dispute_com_trend':'行业投诉率平均'
 }
+var shopTrendOther = {
+  'startrend':'星级',
+  'salesnum_trend':'商品销量',
+  'totalsales_trend':'销售额'
+}
 
 var apiURL = 'http://api.datamavin.com/',
     key = '1cbeff468a9faaf5f5c21edddd5783c2d4017211';
