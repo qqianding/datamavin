@@ -1,0 +1,295 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>店铺基础信息|店铺基础信息各指标的走势</title>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="" class="shop_s">
+    <h1>店铺基础信息查询 | 各指标的走势</h1> 
+    <input type="text" class="search" name="请输入店铺ID" data-initial='34677182' /><span class="go">立即搜索</span>
+</div>
+<h2 class="getInfo clear mgAt">您查询的商家<i></i></h2>
+
+<ul id="tabs" class="mgAt">
+  <li><a href="#" name="#tab1">基础信息如下</a></li>
+  <li><a href="#" name="#tab2" class="shop_trend">各指标的走势:</a></li>
+  <li><a href="#" name="#tab3">Three</a></li>
+  <li><a href="#" name="#tab4">Four</a></li>    
+</ul>
+
+<div id="content" class="mgAt">
+    <div class="shop_basic" id="tab1">
+        <h4 class="tips_text"></h4>
+        <h4 class="info_text">其30天服务服务情况</h4>
+        <h4 class="info_text">其DSR指数</h4>
+
+        <ul id="" class="fuwuInfo"></ul>
+        <ul id="" class="dsrData"></ul>   
+    </div>
+    <div class="shop_trend_con" id="tab2">
+        <h4 class="tips_text"></h4>
+        <h4 class="info_text">其30天服务趋势</h4>
+        <h4 class="info_text">DSR趋势</h4>
+
+        <ul id="" class="fw30_trend_info"></ul>
+        <ul id="" class="dsr_trend_info"></ul>
+
+        <div id="" class="">
+            
+        </div><!-- / -->
+    </div>
+    <div id="tab3">
+     33333
+    </div>
+    <div id="tab4">
+     44444 
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script>
+var serchBox = $('input:text.search'),
+    no_sales_data = '抱歉无该商家数据！',
+    error = '服务器打瞌睡了，刷新试试看看吧',
+    initial = serchBox.data('initial'),
+    goSearch = $('.shop_s').find('.go'),
+    tipsText = $('.tips_text'),
+    infoText = $('.info_text'),
+    shopBasic = $('.shop_basic'),
+    shopTrendCon = $('.shop_trend_con'),
+    fuWuInfo = $('.fuwuInfo'),
+    DSRData = $('.dsrData'),
+    getInfo = $('.getInfo'),
+    dsrTrendInfo = $('.dsr_trend_info'),
+    fw30TrendInfo = $('.fw30_trend_info'),
+    shopTrend = $('.shop_trend');
+
+
+serchBox.val(function() {
+    return this.value + ' ' + this.name;
+});
+
+infoText.hide();
+tipsText.text('请输入店铺ID，搜索后查看！');
+//默认结果是 基础信息
+
+goSearch.on('click',function () {
+    if (serchBox.val()===' 请输入店铺ID') {
+        serchBox.val(initial);
+
+    } else if(parseInt(shopBasic.data('initial'))===parseInt(serchBox.val())){
+        //减少服务器请求
+        console.log('no ajax 1 !');
+    } 
+    else{
+        var serchBoxID = serchBox.val();
+        console.log('ok');
+
+        jQuery.ajax({
+            type:'get',
+            url:apiURL+'shop_basic',
+            data:{
+                shop_id:serchBoxID,
+                sign:key
+            },
+            dataType : 'jsonp',
+            async:false,
+            jsonp: "callback",
+            jsonpCallback:"dataList",
+            success : function (myData) {
+                
+                var ismydata = myData.data;
+
+                //隐藏 提示文本，显示 标题
+                tipsText.hide();
+                infoText.show();
+                //加上 data-initial
+                shopBasic.attr('data-initial',initial);
+                shopTrendCon.children('ul').html('');
+
+
+                if (ismydata.shopurl==undefined) {
+                    tipsText.show().text(no_sales_data);
+                    infoText.hide();
+                    DSRData.hide();
+                    fuWuInfo.hide();
+                    getInfo.children('i').html('：'+no_sales_data);
+
+                    //shopBasic.children('h2').text(no_sales_data);
+                    console.log(no_sales_data);
+
+                } else{
+                    
+                    var dianpu_URL = ismydata.shopurl,
+                        hangyedaima = ismydata.category_code,
+                        dianpu_ID = ismydata.shop_id,
+                        shengfendaima = ismydata.province_code,
+                        shujuTime = ismydata.timestamp,
+                        dianpu_name = decodeURIComponent(ismydata.shop_name),
+                        hangye = hangyeNum[hangyedaima];
+
+                    console.log(ismydata.shopurl==undefined);
+                    fw30day();
+                    shop_dsr();
+
+                    //店铺名称
+                    getInfo.children('i').append('<a href="'+dianpu_URL+'" target="_blank" title="猛击一下查看店铺">：'+dianpu_name+'</a>');
+
+                     //30天服务情况
+                    function fw30day (){
+                        var dataCodeName = ismydata.fw30day;
+                        var str = '';
+                        var tuihuolv = dataCodeName.refund_rate,
+                            tousulv = dataCodeName.dispute_rate,
+                            chufalv = dataCodeName.punish_rate,
+                            tuihuolvPJ = dataCodeName.refund_rate_com,
+                            tousulvPJ = dataCodeName.dispute_rate_com,
+                            chufalvPJ = dataCodeName.punish_rate_com;
+
+                            str += '<li><span>退货率：</span><i>'+tuihuolv + '</i>'
+                                      +'<em>行业平均：</em><b>'+tuihuolvPJ+'</b></li>'
+                                  +'<li><span>处罚率：</span><i>'+chufalv+'</i>'
+                                      +'<em>行业平均：</em><b>'+chufalvPJ+'</b></li>'
+                                  +'<li><span>投诉率：</span><i>'+tousulv+'</i>'
+                                      +'<em>行业平均：</em><b>'+tousulvPJ+'</b></li>';
+                            fuWuInfo.append(str);
+                            
+                    };
+                    //dsr指数
+                    function shop_dsr (){
+                        var dataCodeName = ismydata.dsr;
+                        var str = '';
+                        var zhiliang = dataCodeName.dsr_zl,
+                            zhiliangPJ = dataCodeName.dsr_zl_com,
+                            fuwu = dataCodeName.dsr_fw,
+                            fuwuPJ = dataCodeName.dsr_fw_com,
+                            fahuo = dataCodeName.dsr_fh,
+                            fahuoPJ = dataCodeName.dsr_fh_com;
+
+                            str += '<li><span>商品质量：</span><i>'+zhiliang+'</i>'
+                                      +'<em>行业平均：</em><b>'+zhiliangPJ+'</b></li>'
+                                  +'<li><span>服务水平：</span><i>'+fuwu+'</i>'
+                                      +'<em>行业平均：</em><b>'+fuwuPJ+'</b></li>'
+                                  +'<li><span>发货速度：</span><i>'+fahuo+'</i>'
+                                      +'<em>行业平均：</em><b>'+fahuoPJ+'</b></li>'
+                            DSRData.append(str);
+                    };
+
+                };
+
+            },
+            error : function (){
+                console.log('服务器打瞌睡了，刷新试试看看吧');
+            }
+        });
+
+    };
+});
+
+// 各地指标走势
+shopTrend.on('click',function () {
+    if (serchBox.val()===' 请输入店铺ID') {
+        tipsText.text('请输入店铺ID，搜索后查看！');
+
+    } else if(shopTrendCon.data('initial')){
+        //减轻服务器压力
+        tipsText.text('');
+        console.log('no ajax 2 ！');
+
+    }else{
+
+//获取走势
+        var serchBoxID = serchBox.val();
+
+        jQuery.ajax({
+            type:'get',
+            url:apiURL+'shop_trend',
+            data:{
+                shop_id:serchBoxID,
+                sign:key
+            },
+            dataType : 'jsonp',
+            async:false,
+            jsonp: "callback",
+            jsonpCallback:"dataList",
+            success : function (myData) {
+
+                    tipsText.text('');
+                    if (myData.code===1005) {
+                       shopTrendCon.children('ul').remove();
+                       tipsText.show().text(no_sales_data);
+                       console.log('数据库错误！');
+                    } else{
+
+//获取 DSR 数值和更新时间
+                        var dateArr = [];
+                        var countArr = [];
+                        $.each(myData.dsr_trend,function(i,item){
+                            var shijian = item[0].date,
+                                shuliang = item[0].count;
+                            dateArr.push(shijian);
+                            countArr.push(shuliang);
+
+                        });
+                        console.log(dateArr);
+                        console.log(countArr);
+
+                        function DSRcodeFN (qsCode,i) {
+                            dsrTrendInfo.append('<li>对比<b>'+DSRcode[qsCode]+'</b>趋势：'+countArr[i]+'，于：'+dateArr[i]+' 更新</li>');
+                        }
+                        DSRcodeFN('dsr_fh_com_trend',0);
+                        DSRcodeFN('dsr_fh_trend',2);
+                        DSRcodeFN('dsr_zl_com_trend',4);
+                        DSRcodeFN('dsr_zl_trend',1);
+                        DSRcodeFN('dsr_fw_com_trend',3);
+                        DSRcodeFN('dsr_fw_trend',5);
+
+                        shopTrendCon.attr('data-initial',initial);
+// 获取 30天服务趋势 
+                        var dateArr30 = [];
+                        var countArr30 = [];
+                        $.each(myData.fw30day_trend,function(i,item){
+                            var shijian = item[0].date,
+                                shuliang = item[0].count;
+                            dateArr30.push(shijian);
+                            countArr30.push(shuliang);
+                        });
+                        console.log(dateArr30);
+                        console.log(countArr30);
+                        
+                        function FW30Code (qsCode,i) {
+                            fw30TrendInfo.append('<li>对比<b>'+fw30code[qsCode]+'</b>趋势：'+countArr30[i]+'，于：'+dateArr30[i]+' 跟新</li>');
+                        }
+                        FW30Code('punish_trend_com',0);
+                        FW30Code('punish_trend',0);
+                        FW30Code('refund_com_trend',0);
+                        FW30Code('refund_trend',0);
+                        FW30Code('dispute_com_trend',0);
+                        FW30Code('dispute_trend',0);
+//销量趋势
+/*                        $.each(myData.salesnum_trend,function(i,item){
+                            var shijian = item[0].date,
+                                shuliang = item[0].count;
+
+                        });*/
+
+                        console.log(myData.shopname);
+
+                    };
+
+            },
+
+            error : function (){
+                console.log('服务器打瞌睡了，刷新试试看看吧');
+            }
+
+            });
+
+    };
+})
+</script>
+</body>
+</html>         

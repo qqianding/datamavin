@@ -1,7 +1,7 @@
 {
     "name": "dev",
     "description": "dev",
-    "lib": ["YUI"],
+    "lib": ["JQUERY", "YUI"],
     "pageext": ["html"],
     "pagedirlevel": ["single"],
     "build": ["merge"],
@@ -13,12 +13,20 @@
     "widgetsDir": "src/widgets",
     "buildDir": "build",
     "testsDir": "tests",
-    "cdnPath": "http://127.0.0.1/assets",
-    "port": 80,
+    "cdnPath": "http://192.168.1.104:8080/assets",
+    "port": 8080,
     "urls": {},
     "hosts": "",
     "hostsMap": {},
-    "json": [],
+    "json": [{
+        "url": "/api/json",
+        "enabled": "local",
+        "local": "local_mining.js"
+    }, {
+        "url": "/api/",
+        "remote": "remotehost.com",
+        "local": "local_b.js"
+    }],
     "filter": {},
     "tms": {
         "flag": "/rgn/",

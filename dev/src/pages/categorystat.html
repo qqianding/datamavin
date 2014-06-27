@@ -1,0 +1,211 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>某地对行业的统计</title>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="" class="statistics">
+
+    <div id="" class="shopnumdict_percent">
+        <h1><em></em>各行业<b>商家数</b>比例</h1>
+        <ul id="" class="">
+        </ul><!-- / -->
+    </div><!-- / -->
+    <div id="" class="totalsalesdict_percent">
+        <h1><em></em>各行业<b>销售额</b>比例</h1>
+        <ul id="" class="">
+        </ul><!-- / -->
+    </div><!-- / -->
+    <div id="" class="salesnumdict">
+        <h1><em></em>各行业<b>销量</b></h1>
+        <ul id="" class="">
+        </ul><!-- / -->
+    </div><!-- / -->
+    <div id="" class="totalsalesdict">
+        <h1><em></em>各行业<b>销售额</b></h1>
+        <ul id="" class="">
+        </ul><!-- / -->
+    </div><!-- / -->
+    <div id="" class="salesnumdict_percent">
+        <h1><em></em>各行业<b>销量</b>比例</h1>
+        <ul id="" class="">
+        </ul><!-- / -->
+    </div><!-- / -->
+    <div id="" class="shopnumdict">
+        <h1><em></em>行业<b>商家数</b></h1>
+        <ul id="" class="">
+        </ul><!-- / -->
+    </div><!-- / -->
+    
+</div><!-- / -->
+<script>
+
+
+jQuery.ajax({
+    type:'get',
+    url:apiURL+'location_categorystat',
+    data:{
+        province_code:29,
+        sign:key
+    },
+    dataType : 'jsonp',
+    async:false,
+    jsonp: "callback",
+    jsonpCallback:"dataList",
+    success : function (myData) {
+
+        var ismydata = myData.data,
+            shengfendaima = ismydata.province_code;
+        console.log(ismydata);
+
+        function shopnumdict_percent (){
+            var dataCodeName = ismydata.shopnumdict_percent;
+            if (dataCodeName.length > 0) {
+                
+                var str = '',hangye = '';
+                for (var i = 0; i < dataCodeName.length; i++) {
+                    var hangyedaima = dataCodeName[i].category_code,
+                        baifenbi = dataCodeName[i].percent,
+                        hangye = hangyeNum[hangyedaima];
+
+                    str += '<li><i>'+hangye + '</i>百分比：<span>'+baifenbi+'</span></li>';
+                };
+                $('.shopnumdict_percent').children('ul').append(str) ;
+                console.log(baifenbi);
+            } 
+        }
+
+        function totalsalesdict_percent (){
+            var dataCodeName = ismydata.totalsalesdict_percent;
+            if (dataCodeName.length > 0) {
+                
+                var str = '',hangye = '';
+                for (var i = 0; i < dataCodeName.length; i++) {
+                    var hangyedaima = dataCodeName[i].category_code,
+                        baifenbi = dataCodeName[i].percent,
+                        hangye = hangyeNum[hangyedaima];
+
+                    str += '<li><i>'+hangye + '</i>百分比：<span>'+baifenbi+'</span></li>';
+                };
+                $('.totalsalesdict_percent').children('ul').append(str) ;
+                console.log(baifenbi);
+            } 
+        }
+
+        function salesnumdict (){
+            var dataCodeName = ismydata.salesnumdict;
+            if (dataCodeName.length > 0) {
+                
+                var str = '',hangye = '';
+                for (var i = 0; i < dataCodeName.length; i++) {
+                    var hangyedaima = dataCodeName[i].category_code,
+                        zongshu = dataCodeName[i].count,
+                        hangye = hangyeNum[hangyedaima];
+
+                    str += '<li><i>'+hangye + '</i>销量：<span>'+zongshu+'</span>件</li>';
+                };
+                $('.salesnumdict').children('ul').append(str) ;
+                console.log(zongshu);
+            } 
+        }
+
+        function totalsalesdict (){
+            var dataCodeName = ismydata.totalsalesdict;
+            if (dataCodeName.length > 0) {
+                
+                var str = '',hangye = '';
+                for (var i = 0; i < dataCodeName.length; i++) {
+                    var hangyedaima = dataCodeName[i].category_code,
+                        jine = dataCodeName[i].sold_money,
+                        hangye = hangyeNum[hangyedaima];
+
+                    str += '<li><i>'+hangye + '</i>金额：<span>'+jine+'</span>元</li>';
+                };
+                $('.totalsalesdict').children('ul').append(str) ;
+                console.log(jine);
+            } 
+        }
+        function salesnumdict_percent (){
+            var dataCodeName = ismydata.salesnumdict_percent;
+            if (dataCodeName.length > 0) {
+                
+                var str = '',hangye = '';
+                for (var i = 0; i < dataCodeName.length; i++) {
+                    var hangyedaima = dataCodeName[i].category_code,
+                        baifenbi = dataCodeName[i].percent,
+                        hangye = hangyeNum[hangyedaima];
+
+                    str += '<li><i>'+hangye + '</i>百分比：<span>'+baifenbi+'</span></li>';
+                };
+                $('.salesnumdict_percent').children('ul').append(str) ;
+                console.log(baifenbi);
+            } 
+        }  
+        function shopnumdict (){
+            var dataCodeName = ismydata.shopnumdict;
+            if (dataCodeName.length > 0) {
+                
+                var str = '',hangye = '';
+                for (var i = 0; i < dataCodeName.length; i++) {
+                    var hangyedaima = dataCodeName[i].category_code,
+                        zongshu = dataCodeName[i].count,
+                        hangye = hangyeNum[hangyedaima];
+
+                    str += '<li><i>'+hangye + '</i>总数：<span>'+zongshu+'</span>家</li>';
+                };
+                $('.shopnumdict').children('ul').append(str) ;
+                console.log(zongshu);
+            } 
+        }
+        if (myData.code===1200) {
+            shopnumdict_percent();
+            totalsalesdict_percent();
+            salesnumdict();
+            totalsalesdict();
+            salesnumdict_percent();
+            shopnumdict();
+            shengfen = shengfenNum[shengfendaima]
+            $('em').text(shengfen+'省');
+
+/**/
+/*function PaiMing (b,c) {
+    var a = $('c');
+    var b = [];  
+    for(var i = 0, len = a.length;i<len;i++){  
+        b.push($(a[i]));  
+    };
+    console.log(b[1].text());
+}*/
+//PaiMing('hangye','i');
+
+            //console.log('商家数量比例 数据' + ismydata.shopnumdict_percent.length + '条。省份代码是：'+ismydata.province_code);
+        } else{
+            console.log('请刷新！');
+        };
+    },
+    error : function (){
+        alert('服务器故障！');
+    }
+});  
+
+function bubbleSort(transB){//对数组冒泡排序,变成从小到大排列的数组
+    //console.log(transB.length);
+    var temp;//先定义缓存
+    for(var i=0;i<transB.length-1;i++){//一共比较n-1趟
+        for(var j=0;j<transB.length-i-1;j++){//对当前无序区transB[i..j]自左向右扫描
+            if(transB[j][0][0]>transB[j+1][0][0]){//交换
+                temp=transB[j];
+                transB[j]=transB[j+1];
+                transB[j+1]=temp;
+            }
+        }
+    }
+return transB;
+};
+//bubbleSort(); //调用冒泡，对转录本排序
+</script>
+</body>
+</html>
