@@ -1,0 +1,27 @@
+{
+    "name": "dev",
+    "description": "dev",
+    "lib": ["YUI"],
+    "pageext": ["html"],
+    "pagedirlevel": ["single"],
+    "build": ["merge"],
+    "charset": ["gbk"],
+    "cssns": "dev",
+    "jsns": "dev",
+    "pagesDir": "src/pages",
+    "modsDir": "src/mods",
+    "widgetsDir": "src/widgets",
+    "buildDir": "build",
+    "testsDir": "tests",
+    "cdnPath": "http://127.0.0.1/assets",
+    "port": 80,
+    "urls": {},
+    "hosts": "",
+    "hostsMap": {},
+    "json": [],
+    "filter": {},
+    "tms": {
+        "flag": "/rgn/",
+        "method": "$!securityUtil.ignoretext($cmsTool.importRgnFromCache(\"%s\", %d, 300000))"
+    }
+}
