@@ -58,6 +58,15 @@ var shengfenNum = {
   '99':'未知'
 }
 
+var = categorystat {
+  'shopnumdict_percent':'商家数百分比',
+  'totalsalesdict_percent':'销售额百分比',
+  'salesnumdict':'销量',
+  'totalsalesdict':'销售额',
+  'salesnumdict_percent':'销量百分比',
+  'shopnumdict':'商家数',
+
+}
 var DSRcode = {
   'dsr_fh_com_trend':'行业发货平均',
   'dsr_zl_trend':'本店质量',

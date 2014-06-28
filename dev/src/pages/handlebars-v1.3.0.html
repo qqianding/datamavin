@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Handlebars demo</title>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/handlebars-v1.3.0.js"></script>
+<style type="text/css"></style>
+</head>
+<body>
+	<h2>Simple handlebars demo</h2>
+	<button id="btn_simple">Click me</button>
+	<div id="my_div">
+
+	</div>
+	<h2>Handlebars Helpers demo</h2>
+	<button id="btn_helper">Click me</button>
+	<div id="helper_div">
+
+	</div>
+	<script id="some-template" type="text/x-handlebars-template">
+		  <table>
+		    <thead>
+		      <th>Username</th>
+		      <th>Real Name</th>
+		      <th>Email</th>
+		    </thead>
+		    <tbody>
+		      {{#if users}}
+		        <tr>
+		          <td>{{username}}</td>
+		          <td>{{firstName}} {{lastName}}</td>
+		          <td>{{email}}</td>
+		        </tr>
+		      {{else}}
+		      	<tr>
+		          <td colspan="3">NO users!</td>
+		        </tr>
+		      {{/if}}
+		    </tbody>
+		  </table>
+	</script>
+	<script id="helper-template" type="text/x-handlebars-template">
+		<div>
+		  <h1>By {{fullName author}}</h1>
+		  <div>{{body}}</div>
+
+		  <h1>Comments</h1>
+
+		  {{#each comments}}
+		  <h2>By {{fullName author}}</h2>
+		  <div>{{body}}</h2>
+		  {{/each}}
+		</div>
+	</script>
+<script>
+$(document).ready(function(){
+	Handlebars.registerHelper('fullName', function(person) {
+	  return person.firstName + " " + person.lastName;
+	});
+  $("#btn_simple").click(function(){
+    // $(this).hide();
+    showTemplate();
+  });
+   $("#btn_helper").click(function(){
+
+    showHowUseHelper();
+  });
+});
+// var context = {title: "My New Post", body: "This is my first post!"};
+var persion = {title :"My New Post",body:"This is my first post!"}
+function showTemplate(){
+	var source   = $("#some-template").html();
+  	var template = Handlebars.compile(source);
+	  var data = { users: [
+	      {username: "alan", firstName: "Alan", lastName: "Johnson", email: "alan@test.com" },
+	      {username: "allison", firstName: "Allison", lastName: "House", email: "allison@test.com" },
+	      {username: "ryan", firstName: "Ryan", lastName: "Carson", email: "ryan@test.com" }
+	    ]};
+	  $("#my_div").html(template(data));;
+}
+
+function showHowUseHelper(){
+	var context = {
+	  author: {firstName: "Alan", lastName: "Johnson"},
+	  body: "I Love Handlebars",
+	  comments: [{
+	    author: {firstName: "Yehuda", lastName: "Katz"},
+	    body: "Me too!"
+	  }]
+	};
+	var source   = $("#helper-template").html();
+  	var template = Handlebars.compile(source);
+	$("#helper_div").html(template(context));;
+	
+}
+
+
+</script>	
+</body>
+</html>
+

@@ -61,17 +61,23 @@ jQuery.ajax({
             shengfendaima = ismydata.province_code;
         console.log(ismydata);
 
+        function toPercent(d){
+            var jsonD = Math.round(parseFloat(d)*10000)/100.00;
+            var htmlD = jsonD.toString()+'%';
+            return htmlD;
+        }
+
         function shopnumdict_percent (){
             var dataCodeName = ismydata.shopnumdict_percent;
             if (dataCodeName.length > 0) {
                 
-                var str = '',hangye = '';
+                var str = '';
                 for (var i = 0; i < dataCodeName.length; i++) {
                     var hangyedaima = dataCodeName[i].category_code,
                         baifenbi = dataCodeName[i].percent,
                         hangye = hangyeNum[hangyedaima];
 
-                    str += '<li><i>'+hangye + '</i>百分比：<span>'+baifenbi+'</span></li>';
+                    str += '<li><i>'+hangye + '</i>百分比：<span>'+toPercent(baifenbi)+'</span></li>';
                 };
                 $('.shopnumdict_percent').children('ul').append(str) ;
                 console.log(baifenbi);
@@ -88,7 +94,7 @@ jQuery.ajax({
                         baifenbi = dataCodeName[i].percent,
                         hangye = hangyeNum[hangyedaima];
 
-                    str += '<li><i>'+hangye + '</i>百分比：<span>'+baifenbi+'</span></li>';
+                    str += '<li><i>'+hangye + '</i>百分比：<span>'+toPercent(baifenbi)+'</span></li>';
                 };
                 $('.totalsalesdict_percent').children('ul').append(str) ;
                 console.log(baifenbi);
@@ -119,7 +125,7 @@ jQuery.ajax({
                 var str = '',hangye = '';
                 for (var i = 0; i < dataCodeName.length; i++) {
                     var hangyedaima = dataCodeName[i].category_code,
-                        jine = dataCodeName[i].sold_money,
+                        jine = dataCodeName[i].sold_money_week,
                         hangye = hangyeNum[hangyedaima];
 
                     str += '<li><i>'+hangye + '</i>金额：<span>'+jine+'</span>元</li>';
@@ -136,9 +142,10 @@ jQuery.ajax({
                 for (var i = 0; i < dataCodeName.length; i++) {
                     var hangyedaima = dataCodeName[i].category_code,
                         baifenbi = dataCodeName[i].percent,
+                        //baifenbi = Math.round(parseFloat(dataCodeName[i].percent)*10000)/100.00,
                         hangye = hangyeNum[hangyedaima];
 
-                    str += '<li><i>'+hangye + '</i>百分比：<span>'+baifenbi+'</span></li>';
+                    str += '<li><i>'+hangye + '</i>百分比：<span>'+toPercent(baifenbi)+'</span></li>';
                 };
                 $('.salesnumdict_percent').children('ul').append(str) ;
                 console.log(baifenbi);
