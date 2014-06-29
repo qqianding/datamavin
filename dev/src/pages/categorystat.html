@@ -4,45 +4,41 @@
 <title>某地对行业的统计</title>
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/handlebars-min-1.3.0.js"></script>
+
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div id="" class="statistics">
+<div id="" class="statistics"></div>
+<!-- 模版引擎 -->
+<script id="categorystart" type="text/x-handlebars-template">
+{{#each class_Name}}
+    <div class={{cla}}>
+        <h1><em></em>各行业<b>{{name}}</b></h1>
+        <ul></ul>
+    </div>
+{{/each}}
+</script>
 
-    <div id="" class="shopnumdict_percent">
-        <h1><em></em>各行业<b>商家数</b>比例</h1>
-        <ul id="" class="">
-        </ul><!-- / -->
-    </div><!-- / -->
-    <div id="" class="totalsalesdict_percent">
-        <h1><em></em>各行业<b>销售额</b>比例</h1>
-        <ul id="" class="">
-        </ul><!-- / -->
-    </div><!-- / -->
-    <div id="" class="salesnumdict">
-        <h1><em></em>各行业<b>销量</b></h1>
-        <ul id="" class="">
-        </ul><!-- / -->
-    </div><!-- / -->
-    <div id="" class="totalsalesdict">
-        <h1><em></em>各行业<b>销售额</b></h1>
-        <ul id="" class="">
-        </ul><!-- / -->
-    </div><!-- / -->
-    <div id="" class="salesnumdict_percent">
-        <h1><em></em>各行业<b>销量</b>比例</h1>
-        <ul id="" class="">
-        </ul><!-- / -->
-    </div><!-- / -->
-    <div id="" class="shopnumdict">
-        <h1><em></em>行业<b>商家数</b></h1>
-        <ul id="" class="">
-        </ul><!-- / -->
-    </div><!-- / -->
-    
-</div><!-- / -->
 <script>
+$(document).ready(function(){
+    Handlebars.registerHelper('name', function() {
+        return new Handlebars.SafeString(this.name);
+    });
+    Handlebars.registerHelper('cla', function() {
+        return new Handlebars.SafeString(this.cla);
+    })
 
+    showBusiness();
+    function showBusiness(){
+        var $categorystart = $('#categorystart').html(),
+            template = Handlebars.compile($categorystart);
+        $('.statistics').html(template(location_category));
+    }
+})
+</script>
+
+<script>
 
 jQuery.ajax({
     type:'get',
@@ -61,11 +57,6 @@ jQuery.ajax({
             shengfendaima = ismydata.province_code;
         console.log(ismydata);
 
-        function toPercent(d){
-            var jsonD = Math.round(parseFloat(d)*10000)/100.00;
-            var htmlD = jsonD.toString()+'%';
-            return htmlD;
-        }
 
         function shopnumdict_percent (){
             var dataCodeName = ismydata.shopnumdict_percent;
@@ -88,18 +79,27 @@ jQuery.ajax({
             var dataCodeName = ismydata.totalsalesdict_percent;
             if (dataCodeName.length > 0) {
                 
-                var str = '',hangye = '';
+                var str = '';
                 for (var i = 0; i < dataCodeName.length; i++) {
                     var hangyedaima = dataCodeName[i].category_code,
                         baifenbi = dataCodeName[i].percent,
                         hangye = hangyeNum[hangyedaima];
 
+                        xiaoshoue_per_c[parseInt(hangyedaima)] = baifenbi;
+
                     str += '<li><i>'+hangye + '</i>百分比：<span>'+toPercent(baifenbi)+'</span></li>';
                 };
+                    console.log(xiaoshoue_per_c);
+                    console.log(xiaoshoue_per_c[002]);
+
+
                 $('.totalsalesdict_percent').children('ul').append(str) ;
                 console.log(baifenbi);
             } 
         }
+
+console.log(xiaoshoue_per_c);
+
 
         function salesnumdict (){
             var dataCodeName = ismydata.salesnumdict;
@@ -177,18 +177,6 @@ jQuery.ajax({
             shengfen = shengfenNum[shengfendaima]
             $('em').text(shengfen+'省');
 
-/**/
-/*function PaiMing (b,c) {
-    var a = $('c');
-    var b = [];  
-    for(var i = 0, len = a.length;i<len;i++){  
-        b.push($(a[i]));  
-    };
-    console.log(b[1].text());
-}*/
-//PaiMing('hangye','i');
-
-            //console.log('商家数量比例 数据' + ismydata.shopnumdict_percent.length + '条。省份代码是：'+ismydata.province_code);
         } else{
             console.log('请刷新！');
         };
@@ -196,7 +184,7 @@ jQuery.ajax({
     error : function (){
         alert('服务器故障！');
     }
-});  
+});
 
 function bubbleSort(transB){//对数组冒泡排序,变成从小到大排列的数组
     //console.log(transB.length);
@@ -213,6 +201,7 @@ function bubbleSort(transB){//对数组冒泡排序,变成从小到大排列的�
 return transB;
 };
 //bubbleSort(); //调用冒泡，对转录本排序
+
 </script>
 </body>
 </html>

@@ -56,17 +56,19 @@ var shengfenNum = {
   '34':'澳门',
   '88':'海外',
   '99':'未知'
-}
+};
 
-var = categorystat {
-  'shopnumdict_percent':'商家数百分比',
-  'totalsalesdict_percent':'销售额百分比',
-  'salesnumdict':'销量',
-  'totalsalesdict':'销售额',
-  'salesnumdict_percent':'销量百分比',
-  'shopnumdict':'商家数',
+var location_category = {
+    "class_Name" :[
+        {"cla":"shopnumdict","name":"商家数"},
+        {"cla":"shopnumdict_percent","name":"商家数百分比"},
+        {"cla":"totalsalesdict","name":"销售额"},
+        {"cla":"totalsalesdict_percent","name":"销售额百分比"},
+        {"cla":"salesnumdict","name":"销量"},
+        {"cla":"salesnumdict_percent","name":"销量百分比"}
+    ]
+};
 
-}
 var DSRcode = {
   'dsr_fh_com_trend':'行业发货平均',
   'dsr_zl_trend':'本店质量',
@@ -74,7 +76,7 @@ var DSRcode = {
   'dsr_fw_com_trend':'行业服务平均',
   'dsr_zl_com_trend':'行业质量平均',
   'dsr_fw_trend':'本店服务平均'
-}
+};
 var fw30code = {
   'punish_trend_com':'行业处罚率平均',
   'refund_com_trend':'行业退货率平均',
@@ -82,12 +84,18 @@ var fw30code = {
   'dispute_trend':'本店投诉率',
   'refund_trend':'本店退货率',
   'dispute_com_trend':'行业投诉率平均'
-}
+};
 var shopTrendOther = {
   'startrend':'星级',
   'salesnum_trend':'商品销量',
   'totalsales_trend':'销售额'
-}
+};
+
+//数组定义
+window.xiaoshoue_per_c =[];
+xiaoshoue_hangye = new Array();
+
+
 
 var apiURL = 'http://api.datamavin.com/',
     key = '1cbeff468a9faaf5f5c21edddd5783c2d4017211';
@@ -126,3 +134,10 @@ var apiURL = 'http://api.datamavin.com/',
           }
         }
     })()
+
+//四舍五入的百分数
+function toPercent(d){
+    var jsonD = Math.round(parseFloat(d)*10000)/100.00;
+    var htmlD = jsonD.toString()+'%';
+    return htmlD;
+}
