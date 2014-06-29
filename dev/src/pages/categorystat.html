@@ -89,8 +89,9 @@ jQuery.ajax({
 
                     str += '<li><i>'+hangye + '</i>百分比：<span>'+toPercent(baifenbi)+'</span></li>';
                 };
-                    console.log(xiaoshoue_per_c);
-                    console.log(xiaoshoue_per_c[002]);
+
+                    console.log(xiaoshoue_per_c.sort());
+                    console.log('002是：'+xiaoshoue_per_c[002]);
 
 
                 $('.totalsalesdict_percent').children('ul').append(str) ;
@@ -174,8 +175,9 @@ console.log(xiaoshoue_per_c);
             totalsalesdict();
             salesnumdict_percent();
             shopnumdict();
-            shengfen = shengfenNum[shengfendaima]
-            $('em').text(shengfen+'省');
+            shengfen = shengfenNum[shengfendaima];
+
+            $('.statistics').find('em').text(shengfen+'省');
 
         } else{
             console.log('请刷新！');
