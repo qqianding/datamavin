@@ -79,25 +79,24 @@ jQuery.ajax({
             var dataCodeName = ismydata.totalsalesdict_percent;
             if (dataCodeName.length > 0) {
                 
-                var str = '';
                 for (var i = 0; i < dataCodeName.length; i++) {
                     var hangyedaima = dataCodeName[i].category_code,
                         baifenbi = dataCodeName[i].percent,
-                        hangye = hangyeNum[hangyedaima];
+                        hangye = hangyeNum[hangyedaima],
+                        str = '';
 
                         xiaoshoue_per_c[parseInt(hangyedaima)] = baifenbi;
 
                     str += '<li><i>'+hangye + '</i>百分比：<span>'+toPercent(baifenbi)+'</span></li>';
+                    $('.totalsalesdict_percent').children('ul').append(str) ;
                 };
-
                     console.log(xiaoshoue_per_c.sort());
                     console.log('002是：'+xiaoshoue_per_c[002]);
-
-
-                $('.totalsalesdict_percent').children('ul').append(str) ;
+                
                 console.log(baifenbi);
             } 
         }
+
 
 console.log(xiaoshoue_per_c);
 

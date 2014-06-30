@@ -111,7 +111,7 @@ goSearch.on('click',function () {
                 shopTrendCon.children('ul').html('');
 
 
-                if (ismydata.shopurl==undefined) {
+                if (ismydata.url==undefined) {
                     tipsText.show().text(no_sales_data);
                     infoText.hide();
                     DSRData.hide();
@@ -123,7 +123,7 @@ goSearch.on('click',function () {
 
                 } else{
                     
-                    var dianpu_URL = ismydata.shopurl,
+                    var dianpu_URL = ismydata.url,
                         hangyedaima = ismydata.category_code,
                         dianpu_ID = ismydata.shop_id,
                         shengfendaima = ismydata.province_code,
@@ -131,7 +131,7 @@ goSearch.on('click',function () {
                         dianpu_name = decodeURIComponent(ismydata.shopname),
                         hangye = hangyeNum[hangyedaima];
 
-                    console.log(ismydata.shopurl==undefined);
+                    console.log(ismydata.url==undefined);
                     fw30day();
                     shop_dsr();
 
@@ -291,5 +291,6 @@ shopTrend.on('click',function () {
     };
 })
 </script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000513218'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1000513218' type='text/javascript'%3E%3C/script%3E"));$('#cnzz_stat_icon_1000513218').hide()</script>
 </body>
 </html>         
