@@ -13,13 +13,13 @@
     "widgetsDir": "src/widgets",
     "buildDir": "build",
     "testsDir": "tests",
-    "cdnPath": "http://192.168.1.104:8080/assets",
-    "port": 8080,
+    "cdnPath": "http://192.168.1.104/assets",
+    "port": 80,
     "urls": {},
     "hosts": "",
     "hostsMap": {},
     "json": [{
-        "url": "/api/json",
+        "url": "/categorystat_shopnum/mining",
         "enabled": "local",
         "local": "local_mining.js"
     }, {

@@ -11,34 +11,18 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<h1>统计每个行业商家数量</h1>
+<h1>统计每个行业商家数量，以及商家比例</h1>
 <div id="" class="categorystat_shopnum">
-    <div id="container" style="min-width: 500px; height: 400px; margin: 0 auto"></div>
-    <div id="test" class="test">
-        <ul id="" class=""></ul><!-- / -->
-    </div><!-- / -->
-    <div id="" class="test2">
-        
-    </div><!-- / -->
+    <h2>图1</h2>
+    <div id="percentlist" style="min-width: 500px; height: 400px; margin: 0 auto"></div>
+    <h2>图2</h2>
+
+    <div id="shopnumlist" style="min-width: 500px; height: 400px; margin: 0 auto"></div>
+
 </div><!-- / -->
 
 
 <script>
-function consolelog(message){
-    var console = document.getElementById('debuginfo');
-    if (console === null) {
-        console = document.createElement('div');
-        console.id = 'debuginfo';
-        console.style.border = '1px solid #f60';
-        console.style.position = 'absolute';
-        console.style.top = '0';
-        console.style.bottom = '0';
-        console.style.width = '100px';
-        console.style.height = '100px';
-    } else{};
-    console.innerHTML += '<p>'+ message +'</p>';
-}
-consolelog();
 jQuery.ajax({
     type:'get',
     url:apiURL+'categorystat_shopnum',
@@ -52,32 +36,38 @@ jQuery.ajax({
     success : function (myData) {
         document.cookie = encodeURIComponent('name')+ '=' + encodeURIComponent('高海');
 
-        var data = [];
+        var data1 = [];
         var a=myData.data.percentlist;
-        console.log(a.length);
         if (a.length>0) {
             for (var i = 0; i < a.length; i++) {
                 var hangyedaima = a[i].category_code,
-                    baifenbi = a[i].percent,
-                    str ='';
-                //str +='<li>行业：'+hangyeNum[hangyedaima]+'百分比：'+toPercent(baifenbi)+'</li>';
-                //$('.test').find('ul').append(str);
-                data.push([hangyeNum[hangyedaima],baifenbi]);
+                    baifenbi = a[i].percent;
+                data1.push([hangyeNum[hangyedaima],Math.round(parseFloat(baifenbi)*10000)/100.00]);
             };
-                console.log(data);
+            console.log(data1);
+        };
 
-            
-        } else{};
+        var data2 = [];
+        var b=myData.data.shopnumlist;
+        console.log(b.length);
+        if (b.length>0) {
+            for (var i = 0; i < b.length; i++) {
+                var hangyedaima = b[i].category_code,
+                    shuliang = b[i].count;
+                data2.push([hangyeNum[hangyedaima],shuliang]);
+                console.log(hangyeNum[hangyedaima]);
+            };
+            console.log(data2);
+        };
 
-        console.log(data[0]);
 
-        function zhuzhuang_pic () {
-            $('#container').highcharts({
+        function percentlist () {
+            $('#percentlist').highcharts({
                 chart: {
                     type: 'column'
                 },
                 title: {
-                    text: '每个行业（类目）的商家数量柱状图展示'
+                    text: '每个行业商家数量比例列表'
                 },
                 subtitle: {
                     text: '来源: <a href="http://www.miningdata.com.cn">miningdata</a>'
@@ -103,19 +93,19 @@ jQuery.ajax({
                     enabled: false
                 },
                 tooltip: {
-                    pointFormat: '该行业占比: <b>{point.y:.1f} %</b> 统计时间：2014-6',
+                    pointFormat: '该行业占比: <b>{point.y:.1f} %</b> ，统计时间：2014-6',
                 },
                 series: [{
                     name: 'Population',
-                    data: data,
+                    data: data1,
 
                     dataLabels: {
                         enabled: true,
                         rotation: -90,
                         color: '#FFFFFF',
                         align: 'right',
-                        x: 4,
-                        y: 0.1,
+                        x: 8,
+                        y: 5,
                         style: {
                             fontSize: '13px',
                             fontFamily: 'Verdana, sans-serif',
@@ -125,19 +115,69 @@ jQuery.ajax({
                 }]
             });
         };
-        zhuzhuang_pic();
 
-        
-     
+        function shopnumlist () {
+            $('#shopnumlist').highcharts({
+                colors: ['#90ED7D' ],
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '每个行业商家数量列表'
+                },
+                subtitle: {
+                    text: '来源: <a href="http://www.miningdata.com.cn">miningdata</a>'
+                },
+                xAxis: {
+                    type: 'category',
+                    labels: {
+                        rotation: -45,
+                        align: 'right',
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Microsoft YaHei'
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '该行业 (单位：家)'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: '该行业商家总数: <b>{point.y} </b>家， 统计时间：2014-6',
+                },
+                series: [{
+                    name: 'Population',
+                    data: data2,
+
+                    dataLabels: {
+                        enabled: true,
+                        rotation: -90,
+                        color: '#F05133',
+                        align: 'right',
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Microsoft YaHei',
+                            textShadow: '0 0 3px #F9645F'
+                        }
+                    }
+                }]
+            });
+        };
+        shopnumlist();
+        percentlist();
+
     },
     error : function (){
         console.log('error');
 
     }
 });
-
-
-
 
 </script>
 </body>

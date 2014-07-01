@@ -141,3 +141,19 @@ function toPercent(d){
     var htmlD = jsonD.toString()+'%';
     return htmlD;
 }
+
+//调试模式
+function consolelog(message){
+    var console = document.getElementById('debuginfo');
+    if (console === null) {
+        console = document.createElement('div');
+        console.id = 'debuginfo';
+        console.style.border = '1px solid #f60';
+        console.style.position = 'absolute';
+        console.style.top = '0';
+        console.style.bottom = '0';
+        console.style.width = '100px';
+        console.style.height = '100px';
+    } else{};
+    console.innerHTML += '<p>'+ message +'</p>';
+}

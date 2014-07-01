@@ -32,3 +32,5 @@ li i{font: 14px/1.5em '宋体';font-style: normal;color: #7B4B7E;}
 #content{background:#fff;border-top:2px solid #3d3d3d;padding:2em;/*height:220px;*/
 }
 #content h2,#content h3,#content p{margin:0 0 15px 0;}
+/*-----categorystat_shopnum------*/
+.categorystat_shopnum > h2 {margin: 20px 0;text-align: center;}
